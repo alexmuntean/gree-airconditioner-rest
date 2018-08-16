@@ -7,6 +7,7 @@ import com.gree.airconditioner.dto.CommandBuilder;
 import com.gree.airconditioner.dto.status.GreeDeviceStatus;
 import com.gree.airconditioner.dto.status.Switch;
 import com.gree.airconditioner.services.GreeAirconditionerDeviceFinder;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.function.Function;
 
 public class GreeAirconditionerDeviceTest {
 
+    @Ignore
     @Test
     public void test() throws Exception {
         List<GreeAirconditionerDevice> devices = GreeAirconditionerDeviceFinder.findDevices();

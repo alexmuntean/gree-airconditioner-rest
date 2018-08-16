@@ -4,6 +4,8 @@ import com.gree.airconditioner.dto.status.GreeDeviceStatus;
 import com.gree.airconditioner.dto.status.Switch;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class ControlRequestPackTest {
 
     @Test
@@ -12,6 +14,6 @@ public class ControlRequestPackTest {
         status.setPower(Switch.ON);
 
         ControlRequestPack pack = new ControlRequestPack(status);
-        System.out.println(pack.toJson());
+        assertEquals("{\"t\":\"cmd\",\"opt\":[\"Pow\"],\"p\":[1]}", pack.toJson());
     }
 }

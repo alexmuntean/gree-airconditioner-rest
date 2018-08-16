@@ -22,7 +22,17 @@
             <version>2.11.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.7.0</version>
+        </dependency>
 
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.7.0</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.jvnet.hudson/crypto-util -->
         <dependency>

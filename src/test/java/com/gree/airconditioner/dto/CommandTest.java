@@ -1,15 +1,14 @@
 package com.gree.airconditioner.dto;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class CommandTest {
 
     @Test
     public void toJson() throws Exception {
         Command command = Command.builder().buildScanCommand();
-        Assert.assertEquals("{\"t\":\"scan\"}", command.toJson());
+        assertEquals("{\"t\":\"scan\"}", command.toJson());
     }
 }
