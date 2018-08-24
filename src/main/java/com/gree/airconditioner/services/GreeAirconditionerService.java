@@ -6,6 +6,7 @@ import com.gree.airconditioner.binding.GreeDeviceBinding;
 import com.gree.airconditioner.communication.GreeCommunicationService;
 import com.gree.airconditioner.dto.Command;
 import com.gree.airconditioner.dto.CommandBuilder;
+import com.gree.airconditioner.dto.packs.StatusResponsePack;
 import com.gree.airconditioner.dto.status.GreeDeviceStatus;
 import com.gree.airconditioner.dto.status.Switch;
 import com.gree.airconditioner.dto.status.Temperature;
@@ -75,5 +76,14 @@ public class GreeAirconditionerService {
         Command command = CommandBuilder.builder().buildControlCommand(status, binding);
         String result = communicationService.sendCommand(devices.get(0), command, Function.identity());
         return true;
+    }
+
+    public GreeDeviceStatus getStatus(GreeAirconditionerDevice device) {
+        log.info("Getting status of device");
+        GreeDeviceBinding binding = binderService.getBiding(device);
+
+        Command command = CommandBuilder.builder().buildStatusCommand(binding);
+        GreeDeviceStatus result = communicationService.sendCommand(devices.get(0), command, (json) -> StatusResponsePack.build(json, binding).toObject());
+        return result;
     }
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Temperature {
     @JsonProperty("SetTem")
-    private int temperature;
+    private Integer temperature;
     @JsonProperty("TemUn")
     private TemperatureUnit unit;
 

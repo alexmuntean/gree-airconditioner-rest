@@ -40,7 +40,7 @@ public class GreeDeviceStatus {
     @JsonProperty("Tur")
     private Switch maximumIntensity;
 
-    @JsonProperty("SwSt")
+    @JsonProperty("SvSt")
     private Switch energySavingMode;
 
     public Switch getPower() {

@@ -31,16 +31,17 @@ public class GreeCommunicationService {
 
         try {
             datagramSocket.send(datagram);
-            byte[] receiveData = new byte[347];
+            byte[] receiveData = new byte[500];
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             datagramSocket.receive(receivePacket);
-            String responseString = new String(receivePacket.getData());
+            String responseString = new String(receivePacket.getData(), 0, receivePacket.getLength()).trim();
             return function.apply(responseString);
         } catch (IOException e) {
             if (log.isErrorEnabled()) {
                 log.error("Can't send command {}", command, e);
             }
+            log.info("Trying to send it again {}", command, e);
+            return sendCommand(device, command, function);
         }
-        return null;
     }
 }

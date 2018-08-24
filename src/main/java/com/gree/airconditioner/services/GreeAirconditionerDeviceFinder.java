@@ -23,6 +23,10 @@ public class GreeAirconditionerDeviceFinder {
     private GreeAirconditionerDeviceFinder() {
     }
 
+    public static List<GreeAirconditionerDevice> findDevice() {
+        return findDevices("192.168.1.225");
+    }
+
     public static List<GreeAirconditionerDevice> findDevices() {
         Enumeration<NetworkInterface> interfaces = null;
         try {

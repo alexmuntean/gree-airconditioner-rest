@@ -1,10 +1,10 @@
 package com.gree.airconditioner.controllers;
 
 import com.gree.airconditioner.GreeAirconditionerDevice;
+import com.gree.airconditioner.dto.status.GreeDeviceStatus;
 import com.gree.airconditioner.services.GreeAirconditionerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +28,12 @@ public class GreeAirconditionerController {
         List<GreeAirconditionerDevice> devices = this.airconditionerService.getDevices();
         this.airconditionerService.setTemperature(devices.get(0), temperature);
         return "done";
+    }
+
+    @GetMapping("/status")
+    public GreeDeviceStatus getStatus() {
+        List<GreeAirconditionerDevice> devices = this.airconditionerService.getDevices();
+        return this.airconditionerService.getStatus(devices.get(0));
     }
 
     @GetMapping("/powerOff")
