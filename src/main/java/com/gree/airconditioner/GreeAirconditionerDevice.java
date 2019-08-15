@@ -1,6 +1,8 @@
 package com.gree.airconditioner;
 
 
+import com.gree.airconditioner.dto.status.GreeDeviceStatus;
+import com.gree.airconditioner.services.GreeAirconditionerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,6 +13,7 @@ public class GreeAirconditionerDevice {
 
     private DeviceInfo deviceInfo;
     private ConnectionInfo connectionInfo;
+    private GreeAirconditionerService service;
 
     public GreeAirconditionerDevice(DeviceInfo device, ConnectionInfo connection) {
         this.deviceInfo = device;
@@ -19,6 +22,10 @@ public class GreeAirconditionerDevice {
 
     public DeviceInfo getDeviceInfo() {
         return deviceInfo;
+    }
+
+    public GreeDeviceStatus getStatus() {
+        return service.getStatus(this);
     }
 
     public ConnectionInfo getConnectionInfo() {
@@ -37,5 +44,9 @@ public class GreeAirconditionerDevice {
     public int hashCode() {
 
         return Objects.hash(connectionInfo);
+    }
+
+    public void setService(GreeAirconditionerService greeAirconditionerService) {
+        this.service = greeAirconditionerService;
     }
 }

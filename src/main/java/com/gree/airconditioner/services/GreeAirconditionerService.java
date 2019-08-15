@@ -14,12 +14,16 @@ import com.gree.airconditioner.dto.status.TemperatureUnit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 public class GreeAirconditionerService {
     private static final Logger log = LogManager.getLogger(GreeAirconditionerService.class);
+
+    private PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
     private final GreeDeviceBinderService binderService;
     private final GreeCommunicationService communicationService;
@@ -38,6 +42,9 @@ public class GreeAirconditionerService {
         List<GreeAirconditionerDevice> devices = new ArrayList<>();
         while (devices.size() == 0) {
             devices = GreeAirconditionerDeviceFinder.findDevices();
+            for (GreeAirconditionerDevice device : devices) {
+                device.setService(this);
+            }
         }
         this.devices = devices;
     }
@@ -50,7 +57,7 @@ public class GreeAirconditionerService {
         status.setPower(Switch.ON);
 
         Command command = CommandBuilder.builder().buildControlCommand(status, binding);
-        String result = communicationService.sendCommand(devices.get(0), command, Function.identity());
+        String result = communicationService.sendCommand(getDevice(), command, Function.identity());
         return true;
     }
 
@@ -62,7 +69,7 @@ public class GreeAirconditionerService {
         status.setPower(Switch.OFF);
 
         Command command = CommandBuilder.builder().buildControlCommand(status, binding);
-        String result = communicationService.sendCommand(devices.get(0), command, Function.identity());
+        String result = communicationService.sendCommand(getDevice(), command, Function.identity());
         return true;
     }
 
@@ -74,7 +81,7 @@ public class GreeAirconditionerService {
         status.setTemperature(new Temperature(temperature, TemperatureUnit.CELSIUS));
 
         Command command = CommandBuilder.builder().buildControlCommand(status, binding);
-        String result = communicationService.sendCommand(devices.get(0), command, Function.identity());
+        String result = communicationService.sendCommand(getDevice(), command, Function.identity());
         return true;
     }
 
@@ -83,7 +90,20 @@ public class GreeAirconditionerService {
         GreeDeviceBinding binding = binderService.getBiding(device);
 
         Command command = CommandBuilder.builder().buildStatusCommand(binding);
-        GreeDeviceStatus result = communicationService.sendCommand(devices.get(0), command, (json) -> StatusResponsePack.build(json, binding).toObject());
+        GreeDeviceStatus result = communicationService.sendCommand(getDevice(), command, (json) -> StatusResponsePack.build(json, binding).toObject());
         return result;
+    }
+
+
+    public GreeAirconditionerDevice getDevice() {
+        return devices.get(0);
+    }
+
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener l) {
+        changes.addPropertyChangeListener(propertyName, l);
+    }
+
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener l) {
+        changes.removePropertyChangeListener(propertyName, l);
     }
 }
